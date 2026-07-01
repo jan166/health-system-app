@@ -26,6 +26,7 @@
     font-family:'OkMallangB';
     src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2603-1@1.0/OkMallangB-Regular.woff2') format('woff2');
     font-weight:normal; font-display:swap;
+    unicode-range:U+0030-0039,U+0025,U+002B-002F,U+007E;
   }
   :root{
     --cream:#F7F2E4; --cream-2:#EFE6D0; --card:#FBF7EC;
@@ -35,9 +36,9 @@
     --shadow:0 1px 2px rgba(44,87,115,.05),0 10px 30px rgba(44,87,115,.09);
     --safe-t:env(safe-area-inset-top,0px);
     --safe-b:env(safe-area-inset-bottom,0px);
-    --hand:'Ownglyph','Playfair Display',sans-serif;
+    --hand:'OkMallangB','Ownglyph',sans-serif;
     --serif:'Cormorant Garamond',serif;
-    --serif2:'Playfair Display',serif;
+    --serif2:'OkMallangB','Ownglyph',sans-serif;
   }
   *{box-sizing:border-box}
   html{-webkit-text-size-adjust:100%}
@@ -162,12 +163,12 @@
   .p .pd{font-size:13.5px; color:#CDD9E0; line-height:1.55}
 
   .foot{margin-top:22px; font-size:13px; color:var(--blue); text-align:center; line-height:1.7; font-style:normal}
-  .foot .sig{font-family:var(--serif); font-style:italic; font-size:17px; color:var(--peach); display:block; margin-top:8px}
+  .foot .sig{font-family:var(--hand); font-size:18px; color:var(--peach); display:block; margin-top:8px}
 
   /* bottom tab bar */
   nav{position:fixed; left:0; right:0; bottom:0; background:rgba(247,242,228,.9); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border-top:1px solid var(--line); display:flex; padding-bottom:var(--safe-b); z-index:50}
   nav button{flex:1; background:none; border:0; padding:10px 4px 11px; cursor:pointer; color:var(--blue); font-family:var(--hand); display:flex; flex-direction:column; align-items:center; gap:2px; font-size:13px; -webkit-tap-highlight-color:transparent; opacity:.6}
-  nav button .ic{font-family:var(--serif); font-style:italic; font-size:19px; line-height:1; font-weight:600}
+  nav button .ic{font-family:var(--hand); font-size:19px; line-height:1}
   nav button.active{opacity:1; color:var(--ink)}
   nav button.active .ic{color:var(--peach)}
   nav button:focus-visible{outline:2px solid var(--peach); outline-offset:-3px; border-radius:10px}
