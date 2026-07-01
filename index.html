@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#1E2B22">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>여름 컷 · 9주</title>
+<style>
+  :root{
+    --paper:#F3F1EC; --paper-2:#ECE8DE; --ink:#1E2B22; --ink-soft:#3C4A40;
+    --sage:#6B7D68; --sage-soft:#E2E6DA; --line:#D7D2C4;
+    --amber:#B87333; --amber-soft:#F0E2CF;
+    --good:#4E7A52; --warn:#B77E2A; --stop:#A64B3A;
+    --shadow:0 1px 2px rgba(30,43,34,.05),0 8px 24px rgba(30,43,34,.06);
+    --safe-b:env(safe-area-inset-bottom,0px);
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard","Noto Sans KR",system-ui,sans-serif;
+    line-height:1.55; -webkit-font-smoothing:antialiased;
+    padding-bottom:calc(78px + var(--safe-b));
+  }
+  .num{font-variant-numeric:tabular-nums lining-nums}
+  .wrap{max-width:640px; margin:0 auto; padding:20px 16px 40px}
+  .eyebrow{font-size:11.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--sage); font-weight:700}
+
+  /* header */
+  header{border-bottom:2px solid var(--ink); padding-bottom:16px; margin-bottom:18px}
+  .kick{display:flex; justify-content:space-between; align-items:baseline; gap:12px}
+  h1{font-size:clamp(26px,7vw,34px); font-weight:800; letter-spacing:-.02em; margin:8px 0 0}
+  h1 span{color:var(--amber)}
+  .dday{font-size:12px; color:var(--ink-soft); font-weight:600}
+  .dday b{color:var(--ink)}
+  .stats{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:12px; overflow:hidden; margin-top:14px}
+  .stat{background:var(--paper); padding:12px 14px}
+  .stat .l{font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--sage); font-weight:700}
+  .stat .v{font-size:20px; font-weight:800; margin-top:3px; letter-spacing:-.01em}
+  .stat .v small{font-size:12px; font-weight:600; color:var(--ink-soft)}
+  .stat .v .a{color:var(--amber)}
+
+  /* tab panels */
+  .panel{display:none}
+  .panel.active{display:block; animation:fade .25s ease}
+  @keyframes fade{from{opacity:0; transform:translateY(4px)} to{opacity:1; transform:none}}
+  @media (prefers-reduced-motion:reduce){.panel.active{animation:none} }
+
+  h2{font-size:18px; font-weight:800; letter-spacing:-.01em; margin:0}
+  .sec-head{display:flex; align-items:baseline; gap:10px; margin:26px 0 16px; border-bottom:1px solid var(--line); padding-bottom:9px}
+  .sec-head .n{font-size:11px; font-weight:800; color:var(--amber); letter-spacing:.1em}
+  .sub{font-size:13px; color:var(--ink-soft); margin:0 0 16px}
+  .sub b{color:var(--ink)}
+
+  /* chart */
+  .chart-card{background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:16px 16px 10px; box-shadow:var(--shadow)}
+  .chart-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; font-size:12px; color:var(--sage); font-weight:600}
+  .chart-head .t{font-weight:700; font-size:13.5px; color:var(--ink)}
+  svg{display:block; width:100%; height:auto}
+
+  /* week cards */
+  .cyc{margin-top:20px}
+  .cyc-label{display:flex; align-items:center; gap:9px; margin-bottom:10px; flex-wrap:wrap}
+  .tag{font-size:10.5px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:var(--paper); background:var(--sage); padding:3px 9px; border-radius:20px; white-space:nowrap}
+  .tag.c2{background:var(--ink-soft)} .tag.c3{background:var(--amber)}
+  .cyc-label .d{font-size:12px; color:var(--ink-soft); flex:1; min-width:180px}
+  .cyc-label .d b{color:var(--ink)}
+  .weeks{display:grid; grid-template-columns:repeat(3,1fr); gap:8px}
+  .wk{background:var(--paper); border:1px solid var(--line); border-radius:11px; padding:10px 11px; box-shadow:var(--shadow); position:relative}
+  .wk .top{display:flex; justify-content:space-between; align-items:baseline}
+  .wk .w{font-size:10px; font-weight:800; letter-spacing:.06em; color:var(--sage)}
+  .wk .date{font-size:9.5px; color:var(--ink-soft); font-weight:600}
+  .wk .kg{font-size:19px; font-weight:800; letter-spacing:-.02em; margin-top:7px}
+  .wk .kg small{font-size:10px; font-weight:600; color:var(--ink-soft)}
+  .wk .bf{font-size:12px; font-weight:700; color:var(--amber)}
+  .wk.dday{border-color:var(--amber); border-width:2px; background:linear-gradient(180deg,var(--amber-soft),var(--paper))}
+  .wk.now{box-shadow:0 0 0 2px var(--sage)}
+  .wk .flag{position:absolute; top:-8px; right:8px; font-size:9px; font-weight:800; letter-spacing:.06em; padding:1px 7px; border-radius:20px; color:#fff}
+  .wk.dday .flag{background:var(--amber)} .wk.now .flag{background:var(--sage)}
+
+  /* workout */
+  .dayblock{background:var(--paper); border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow); margin-bottom:14px; overflow:hidden}
+  .dayblock.train{border-top:4px solid var(--amber)}
+  .dayblock.cardio{border-top:4px solid var(--sage)}
+  .day-h{padding:14px 16px 12px; border-bottom:1px solid var(--line)}
+  .day-h .tit{font-size:16px; font-weight:800; display:flex; justify-content:space-between; align-items:center}
+  .day-h .tit .prog{font-size:12px; font-weight:700; color:var(--sage)}
+  .day-h .meta{font-size:12px; color:var(--ink-soft); margin-top:3px}
+  ul.ex{list-style:none; margin:0; padding:6px 0}
+  ul.ex li{display:flex; align-items:center; gap:12px; padding:10px 16px; cursor:pointer; -webkit-tap-highlight-color:transparent}
+  ul.ex li:active{background:var(--sage-soft)}
+  .chk{flex:0 0 auto; width:24px; height:24px; border:2px solid var(--sage); border-radius:7px; display:flex; align-items:center; justify-content:center; transition:all .15s}
+  .chk svg{width:14px; height:14px; opacity:0}
+  li.done .chk{background:var(--good); border-color:var(--good)}
+  li.done .chk svg{opacity:1}
+  li.done .name{color:var(--sage); text-decoration:line-through}
+  .exbody{flex:1; min-width:0}
+  .exbody .name{font-size:14.5px; font-weight:700}
+  .exbody .setrep{font-size:12.5px; color:var(--ink-soft); margin-top:1px}
+  .exbody .setrep b{color:var(--amber); font-weight:700}
+  .abs{background:var(--sage-soft); border-radius:10px; padding:10px 14px; margin:2px 16px 14px; font-size:12.5px; color:var(--ink-soft)}
+  .abs b{color:var(--ink)}
+  .reset{display:block; margin:4px auto 0; background:none; border:1px solid var(--line); color:var(--sage); font-size:12px; font-weight:600; padding:7px 16px; border-radius:20px; cursor:pointer}
+
+  /* meals */
+  .meal{background:var(--paper); border:1px solid var(--line); border-radius:14px; padding:16px 16px 18px; box-shadow:var(--shadow); margin-bottom:14px}
+  .meal.train{border-top:4px solid var(--amber)}
+  .meal.rest{border-top:4px solid var(--sage)}
+  .meal h3{margin:0; font-size:15.5px; font-weight:800; display:flex; justify-content:space-between; align-items:baseline}
+  .meal h3 .cal{font-size:12.5px; font-weight:700; color:var(--ink-soft)}
+  .macro{display:flex; gap:6px; margin:10px 0 14px; flex-wrap:wrap}
+  .macro span{font-size:11px; font-weight:700; padding:3px 8px; border-radius:6px; background:var(--sage-soft); color:var(--ink-soft)}
+  .macro span b{color:var(--ink)}
+  .meal ul{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px}
+  .meal ul li{display:grid; grid-template-columns:58px 1fr; gap:10px; font-size:13px; align-items:start}
+  .meal ul li .when{font-size:10.5px; font-weight:800; letter-spacing:.03em; color:var(--sage); padding-top:2px}
+  .meal ul li .what{color:var(--ink-soft)}
+  .meal ul li .what strong{color:var(--ink); font-weight:700}
+  .swap{font-size:11.5px; color:var(--sage); margin:12px 2px 0; line-height:1.5}
+
+  /* callout boxes */
+  .box{border-radius:12px; padding:16px 18px; border:1px solid var(--line); background:var(--paper); box-shadow:var(--shadow); margin-bottom:12px}
+  .box.keep{border-left:4px solid var(--good)} .box.avoid{border-left:4px solid var(--stop)}
+  .box h3{margin:0 0 11px; font-size:14px; font-weight:800}
+  .box ul{margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:9px}
+  .box li{font-size:12.5px; color:var(--ink-soft); padding-left:20px; position:relative}
+  .keep li::before{content:"✓"; position:absolute; left:0; color:var(--good); font-weight:800}
+  .avoid li::before{content:"✕"; position:absolute; left:0; color:var(--stop); font-weight:800}
+  .box li b{color:var(--ink)}
+
+  .principles{background:var(--ink); color:var(--paper); border-radius:14px; padding:20px}
+  .principles h2{color:#fff; margin:0 0 16px; font-size:16px}
+  .plist{display:flex; flex-direction:column; gap:14px}
+  .p{border-top:2px solid var(--amber); padding-top:9px}
+  .p .pt{font-weight:800; font-size:13.5px; margin-bottom:3px}
+  .p .pd{font-size:12.5px; color:#C9CFC5}
+
+  .foot{margin-top:20px; font-size:11.5px; color:var(--sage); text-align:center; line-height:1.7}
+
+  /* bottom tab bar */
+  nav{position:fixed; left:0; right:0; bottom:0; background:rgba(243,241,236,.92); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border-top:1px solid var(--line); display:flex; padding-bottom:var(--safe-b); z-index:50}
+  nav button{flex:1; background:none; border:0; padding:11px 4px 12px; cursor:pointer; color:var(--sage); font-family:inherit; display:flex; flex-direction:column; align-items:center; gap:3px; font-size:11px; font-weight:700; -webkit-tap-highlight-color:transparent}
+  nav button .ic{font-size:19px; line-height:1}
+  nav button.active{color:var(--ink)}
+  nav button.active .ic{transform:translateY(-1px)}
+  nav button:focus-visible{outline:2px solid var(--amber); outline-offset:-2px; border-radius:8px}
+
+  @media (min-width:560px){ .plist{display:grid; grid-template-columns:1fr 1fr} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="kick">
+      <span class="eyebrow">Summer Cut · 2026</span>
+      <span class="dday num">7/1 → <b>D-Day 9/1</b> · 9주</span>
+    </div>
+    <h1>여름 컷 <span>9주</span></h1>
+    <div class="stats">
+      <div class="stat"><div class="l">현재 · 7/1</div><div class="v num">64.2<small>kg</small> · 30.2<small>%</small></div></div>
+      <div class="stat"><div class="l">목표 · 9/1</div><div class="v num"><span class="a">→</span> 57.4<small>kg</small> · 22<small>%</small></div></div>
+    </div>
+  </header>
+
+  <!-- ============ PLAN ============ -->
+  <section class="panel active" id="p-plan">
+    <div class="chart-card">
+      <div class="chart-head"><span class="t">체지방률 목표 궤적</span><span class="num">절식 없이 · 주 ~0.9%p</span></div>
+      <svg viewBox="0 0 900 200" preserveAspectRatio="none" role="img" aria-label="체지방률 30%에서 22%로 감소">
+        <line x1="0" y1="10" x2="900" y2="10" stroke="#D7D2C4" stroke-width="1" stroke-dasharray="3 5"/>
+        <line x1="0" y1="100" x2="900" y2="100" stroke="#D7D2C4" stroke-width="1" stroke-dasharray="3 5"/>
+        <line x1="0" y1="190" x2="900" y2="190" stroke="#D7D2C4" stroke-width="1" stroke-dasharray="3 5"/>
+        <polygon points="0,10 100,37 200,55 300,73 400,91 500,111 600,129 700,149 800,167 900,190 900,200 0,200" fill="#B8733322"/>
+        <polyline points="0,10 100,37 200,55 300,73 400,91 500,111 600,129 700,149 800,167 900,190" fill="none" stroke="#B87333" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+        <circle cx="0" cy="10" r="4" fill="#6B7D68"/><circle cx="900" cy="190" r="5.5" fill="#B87333"/>
+      </svg>
+      <div class="chart-head" style="margin-top:4px"><span class="num">30%</span><span class="num">22%</span></div>
+    </div>
+
+    <div class="sec-head"><span class="n">3-CYCLE</span><h2>9주 주기화</h2></div>
+    <p class="sub">인바디상 <b>골격근 부족형(C자)</b> — 지방 빼며 근육 지키는 게 핵심. 배제 아닌 <b>포함</b>으로, 절식 없이.</p>
+
+    <div class="cyc">
+      <div class="cyc-label"><span class="tag">Cycle 1 · 시동</span><span class="d"><b>근력 주3 + 공복 유산소 20~30분.</b> 습관·물·수면. 초반 물빠짐 겁내지 말기.</span></div>
+      <div class="weeks">
+        <div class="wk now"><span class="flag">이번주</span><div class="top"><span class="w num">W1</span><span class="date num">7/1–7/7</span></div><div class="kg num">62.8<small>kg</small></div><div class="bf num">28.8%</div></div>
+        <div class="wk"><div class="top"><span class="w num">W2</span><span class="date num">7/8–14</span></div><div class="kg num">62.0<small>kg</small></div><div class="bf num">28.0%</div></div>
+        <div class="wk"><div class="top"><span class="w num">W3</span><span class="date num">7/15–21</span></div><div class="kg num">61.2<small>kg</small></div><div class="bf num">27.2%</div></div>
+      </div>
+    </div>
+    <div class="cyc">
+      <div class="cyc-label"><span class="tag c2">Cycle 2 · 볼륨</span><span class="d"><b>유산소 30~40분 증량 + 근력 유지.</b> 정체 구간 — 근력 무게 유지=근육 신호.</span></div>
+      <div class="weeks">
+        <div class="wk"><div class="top"><span class="w num">W4</span><span class="date num">7/22–28</span></div><div class="kg num">60.4<small>kg</small></div><div class="bf num">26.4%</div></div>
+        <div class="wk"><div class="top"><span class="w num">W5</span><span class="date num">7/29–8/4</span></div><div class="kg num">59.7<small>kg</small></div><div class="bf num">25.5%</div></div>
+        <div class="wk"><div class="top"><span class="w num">W6</span><span class="date num">8/5–11</span></div><div class="kg num">59.0<small>kg</small></div><div class="bf num">24.7%</div></div>
+      </div>
+    </div>
+    <div class="cyc">
+      <div class="cyc-label"><span class="tag c3">Cycle 3 · 마무리</span><span class="d"><b>근력 사수 + 유산소 유지. 절식 금지.</b> 단백질 ↑(110~120g)로 근육 방어.</span></div>
+      <div class="weeks">
+        <div class="wk"><div class="top"><span class="w num">W7</span><span class="date num">8/12–18</span></div><div class="kg num">58.3<small>kg</small></div><div class="bf num">23.8%</div></div>
+        <div class="wk"><div class="top"><span class="w num">W8</span><span class="date num">8/19–25</span></div><div class="kg num">57.8<small>kg</small></div><div class="bf num">23.0%</div></div>
+        <div class="wk dday"><span class="flag">D-DAY</span><div class="top"><span class="w num">W9</span><span class="date num">8/26–9/1</span></div><div class="kg num">57.4<small>kg</small></div><div class="bf num">22.0%</div></div>
+      </div>
+    </div>
+
+    <div class="sec-head"><span class="n">RULES</span><h2>가져갈 것 &amp; 버릴 것</h2></div>
+    <div class="box keep">
+      <h3>✅ 2024에서 가져올 것</h3>
+      <ul>
+        <li>하루 <b>4~5끼</b>, 단백질 매끼 균등, <b>운동 전후 탄수 몰기</b></li>
+        <li>취침 2시간 전 마지막 끼니</li>
+        <li>영양제는 확실한 것만 — <b>크레아틴·오메가3·비타민D+칼슘·마그네슘</b></li>
+        <li>피드백은 앱 아니라 <b>주 1회 인바디</b>(지방↓·근육 유지)</li>
+      </ul>
+    </div>
+    <div class="box avoid">
+      <h3>✕ 절대 하지 말 것</h3>
+      <ul>
+        <li><b>수분 조절 트릭</b>(물 4L→단수) — 무대 하루용 착시</li>
+        <li>후반 <b>절식</b>(890kcal대) — 남의 숫자</li>
+        <li><b>배제식·규칙 다이어트</b> — 나한텐 식이강박 유발</li>
+        <li>불안해서 세는 <b>온도계 모드</b> — 세더라도 유연하게</li>
+      </ul>
+    </div>
+
+    <div class="principles">
+      <h2>⚑ 9/1 이후 — 유지 프로토콜 (진짜 관건)</h2>
+      <div class="plist">
+        <div class="p"><div class="pt">폭식 금지 · 리버스</div><div class="pd">쉬는날 칼로리를 주당 +100~150씩 유지선(~2,000)까지 천천히.</div></div>
+        <div class="p"><div class="pt">±1kg 밴드</div><div class="pd">매주 체중 체크, 벗어나면 그 주 바로 조정.</div></div>
+        <div class="p"><div class="pt">10월 미리 막기</div><div class="pd">4년 붕괴 지점. 지금 "최소 운동 30분" 캘린더에 박기.</div></div>
+        <div class="p"><div class="pt">다음 작은 목표</div><div class="pd">목표 있으면 유지하는 사람. 9/1 다음 이유 하나.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WORKOUT ============ -->
+  <section class="panel" id="p-workout">
+    <div class="sec-head"><span class="n">WEEK 1</span><h2>이번 주 운동 — 시동</h2></div>
+    <p class="sub">근력 <b>주 3회(A·B·C)</b> + 공복 유산소 <b>주 2~3회</b> + 복근. 첫 주는 무게보다 <b>폼</b> 우선 — 각 세트 <b>2회쯤 남기고</b> 끝낼 무게로. 종목 누르면 체크됨(자동 저장).</p>
+
+    <div class="dayblock train">
+      <div class="day-h"><div class="tit"><span>Day A · 하체 (힙·허벅지)</span><span class="prog" data-prog="A">0/5</span></div><div class="meta">월 또는 첫 운동일 · 45~55분</div></div>
+      <ul class="ex" data-day="A">
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div class="exbody"><div class="name">바벨 스쿼트</div><div class="setrep">웜업 후 <b>12회 × 4세트</b> · 앉을 때 무릎-발끝 방향</div></div></li>
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div class="exbody"><div class="name">힙 쓰러스트</div><div class="setrep"><b>15회 × 4세트</b> · 맨 위에서 1초 조이기</div></div></li>
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div class="exbody"><div class="name">루마니안 데드리프트</div><div class="setrep"><b>12회 × 3세트</b> · 햄스트링 늘어나는 느낌까지만</div></div></li>
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div class="exbody"><div class="name">워킹 런지</div><div class="setrep"><b>12회(양쪽) × 3세트</b> · 덤벨 or 맨몸</div></div></li>
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div class="exbody"><div class="name">힙 어브덕션 (아웃타이)</div><div class="setrep"><b>20회 × 3세트</b> · 마지막 버닝까지</div></div></li>
+      </ul>
+      <div class="abs"><b>복근 마무리:</b> 크런치 20회×3 · 레그레이즈 15회×3</div>
+    </div>
+
+    <div class="dayblock train">
+      <div class="day-h"><div class="tit"><span>Day B · 상체 (등·어깨)</span><span class="prog" data-prog="B">0/5</span></div><div class="meta">중간 운동일 · 45~55분</div></div>
+      <ul class="ex" data-day="B">
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div class="exbody"><div class="name">랫 풀다운</div><div class="setrep"><b>15회 × 4세트</b> · 견갑골 먼저 내리기</div></div></li>
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div class="exbody"><div class="name">시티드 로우</div><div class="setrep"><b>15회 × 4세트</b> · 등으로 당기기 (팔 아님)</div></div></li>
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div class="exbody"><div class="name">인클라인 덤벨 프레스</div><div class="setrep"><b>12회 × 3세트</b></div></div></li>
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div class="exbody"><div class="name">숄더 프레스</div><div class="setrep"><b>12회 × 3세트</b></div></div></li>
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div class="exbody"><div class="name">사이드 레터럴 레이즈</div><div class="setrep"><b>15회 × 4세트</b> · 가벼운 무게로 어깨만</div></div></li>
+      </ul>
+      <div class="abs"><b>복근 마무리:</b> 플랭크 40초×3</div>
+    </div>
+
+    <div class="dayblock train">
+      <div class="day-h"><div class="tit"><span>Day C · 후면 + 전신</span><span class="prog" data-prog="C">0/5</span></div><div class="meta">마지막 운동일 · 45~55분</div></div>
+      <ul class="ex" data-day="C">
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div class="exbody"><div class="name">데드리프트</div><div class="setrep"><b>12회 × 4세트</b> · 허리 중립, 첫 주 가볍게</div></div></li>
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div class="exbody"><div class="name">힙 쓰러스트</div><div class="setrep"><b>15회 × 3세트</b></div></div></li>
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div class="exbody"><div class="name">레그 컬</div><div class="setrep"><b>15회 × 3세트</b></div></div></li>
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div class="exbody"><div class="name">굿모닝</div><div class="setrep"><b>12회 × 3세트</b> · 가벼운 무게로 폼만</div></div></li>
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div class="exbody"><div class="name">힙 어덕션 (이너타이)</div><div class="setrep"><b>20회 × 3세트</b></div></div></li>
+      </ul>
+      <div class="abs"><b>복근 마무리:</b> 크런치 20회×3 · 사이드플랭크 30초(양쪽)</div>
+    </div>
+
+    <div class="dayblock cardio">
+      <div class="day-h"><div class="tit"><span>유산소 &amp; 복근</span></div><div class="meta">근력 안 하는 날 or 근력 후</div></div>
+      <div class="abs" style="margin-top:12px"><b>공복 유산소</b> 주 2~3회 · 빠른 걷기 / 인클라인 트레드밀 / 사이클. 첫 주는 <b>20분</b>부터, 대화 가능한 강도. · <b>복근</b>은 매일 위 마무리 루틴 중 하나씩.</div>
+    </div>
+
+    <button class="reset" id="reset">이번 주 체크 초기화</button>
+  </section>
+
+  <!-- ============ MEALS ============ -->
+  <section class="panel" id="p-meals">
+    <div class="sec-head"><span class="n">DAILY</span><h2>하루 식단 — 넣어서 채우기</h2></div>
+    <p class="sub">"이건 먹지 마"가 아니라 <b>"이걸 이 타이밍에 채워"</b>. 통밀빵·쌀밥 다 포함. 단백질 <b>~110g</b> 고정, 탄수만 운동 유무로 조절.</p>
+
+    <div class="meal train">
+      <h3>운동하는 날 <span class="cal num">~1,750 kcal</span></h3>
+      <div class="macro"><span>단백질 <b>110g</b></span><span>탄수 <b>190g</b></span><span>지방 <b>60g</b></span></div>
+      <ul>
+        <li><span class="when">아침</span><span class="what"><strong>통밀빵 2장</strong> + 계란 2 + 그릭요거트 (단백질 ~30g)</span></li>
+        <li><span class="when">점심</span><span class="what"><strong>쌀밥 150g</strong> + 닭가슴살/생선 + 채소 — 단백질 먼저</span></li>
+        <li><span class="when">운동 전</span><span class="what">바나나 1 + 단백질 쉐이크 (탄수 몰기)</span></li>
+        <li><span class="when">운동 후</span><span class="what"><strong>쌀밥</strong> + 닭가슴살/소고기 + 시금치·브로콜리</span></li>
+        <li><span class="when">지방</span><span class="what">하루견과 1봉</span></li>
+      </ul>
+    </div>
+    <div class="meal rest">
+      <h3>쉬는 날 <span class="cal num">~1,500 kcal</span></h3>
+      <div class="macro"><span>단백질 <b>110g</b></span><span>탄수 <b>120g</b></span><span>지방 <b>60g</b></span></div>
+      <ul>
+        <li><span class="when">아침</span><span class="what">계란 2 + 그릭요거트 + 냉동베리 (+ 통밀빵 1장)</span></li>
+        <li><span class="when">점심</span><span class="what"><strong>쌀밥 100g</strong> + 닭가슴살/생선 + 토마토·오이</span></li>
+        <li><span class="when">간식</span><span class="what">그릭요거트 or 삶은계란 2 (면·과자 대신)</span></li>
+        <li><span class="when">저녁</span><span class="what">흰살생선/닭 + 채소 넉넉히 + 쌀밥 소량</span></li>
+        <li><span class="when">지방</span><span class="what">하루견과 1봉</span></li>
+      </ul>
+    </div>
+    <p class="swap">교환 자유 — 닭가슴살 100g = 소고기 80g = 생선 200g / 고구마 100g = 쌀 100g = 단호박 200g = 오트밀 50g. 질리면 바꿔 먹기.</p>
+  </section>
+
+  <p class="foot">트래킹은 도구지 규칙이 아님 — 강박 신호 뜨면 세기부터 끈다.<br>하루 체중 숫자에 흔들리지 말고 주간 인바디로 판단할 것.</p>
+</div>
+
+<nav>
+  <button class="active" data-tab="p-plan"><span class="ic">📋</span>플랜</button>
+  <button data-tab="p-workout"><span class="ic">🏋️</span>운동</button>
+  <button data-tab="p-meals"><span class="ic">🥗</span>식단</button>
+</nav>
+
+<script>
+(function(){
+  var KEY = 'summercut-w1-checks';
+  // tabs
+  var btns = document.querySelectorAll('nav button');
+  var panels = document.querySelectorAll('.panel');
+  btns.forEach(function(b){
+    b.addEventListener('click', function(){
+      btns.forEach(function(x){x.classList.remove('active');});
+      panels.forEach(function(p){p.classList.remove('active');});
+      b.classList.add('active');
+      document.getElementById(b.dataset.tab).classList.add('active');
+      window.scrollTo({top:0, behavior:'instant' in window ? 'instant':'auto'});
+    });
+  });
+
+  // checkable exercises + persistence
+  var state = {};
+  try{ state = JSON.parse(localStorage.getItem(KEY)) || {}; }catch(e){ state = {}; }
+  var items = document.querySelectorAll('ul.ex li');
+  items.forEach(function(li, i){
+    var day = li.parentElement.dataset.day;
+    var id = day + '-' + i;
+    li.dataset.id = id;
+    if(state[id]) li.classList.add('done');
+    li.addEventListener('click', function(){
+      li.classList.toggle('done');
+      state[id] = li.classList.contains('done');
+      save(); updateProg();
+    });
+  });
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  function updateProg(){
+    document.querySelectorAll('ul.ex').forEach(function(ul){
+      var day = ul.dataset.day;
+      var all = ul.querySelectorAll('li');
+      var done = ul.querySelectorAll('li.done').length;
+      var tag = document.querySelector('.prog[data-prog="'+day+'"]');
+      if(tag){ tag.textContent = done + '/' + all.length; tag.style.color = (done===all.length && all.length) ? 'var(--good)' : 'var(--sage)'; }
+    });
+  }
+  updateProg();
+
+  document.getElementById('reset').addEventListener('click', function(){
+    state = {}; save();
+    items.forEach(function(li){ li.classList.remove('done'); });
+    updateProg();
+  });
+})();
+</script>
+</body>
+</html>
